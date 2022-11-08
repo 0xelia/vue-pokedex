@@ -1,28 +1,76 @@
 <template>
-  <div id="app">
-    <img alt="Vue logo" src="./assets/logo.png">
-    <HelloWorld msg="Welcome to Your Vue.js App"/>
+  <div id="app" class="h-screen flex flex-col">
+    <SearchBar :text="title" @onPokeRes="getRes" />
+
+    <ShowRes v-if="status === 200" 
+    :pokemon="pokemon" :pics="pokePics"
+    @onPokeClick="getPokedex"  />
+
+    <pokedexPreview :pokedex="pokedex" 
+    @onPokeRemove="removeFromPokedex" @onPokeShow="getPokeToShow" />
   </div>
 </template>
 
 <script>
-import HelloWorld from './components/HelloWorld.vue'
+import SearchBar from './components/SearchBar.vue';
+import ShowRes from './components/ShowRes.vue';
+import pokedexPreview from './components/pokedexPreview.vue';
 
 export default {
   name: 'App',
+  data(){
+    return{
+      title: 'Cerca un Pokemon',
+      pokemon: {},
+      pokePics: {},
+      pokedex: [],
+      status: null,
+    }
+  },
+
   components: {
-    HelloWorld
-  }
+    SearchBar,
+    ShowRes,
+    pokedexPreview
+  },
+
+  methods: {
+    getRes(pokeData){
+      const {data} = pokeData
+      const {status} = pokeData
+
+      this.pokemon = data
+      this.status = status
+
+      const {sprites} = this.pokemon
+      this.pokePics = sprites
+  
+    },
+
+    getPokeToShow(data){
+      return this.pokemon = data
+    },
+
+    removeFromPokedex(data){
+      const poke = data
+
+      this.pokedex = this.pokedex.filter(el => el.id != poke.id)
+      return this.pokedex
+  
+    },
+
+    getPokedex(data){
+      this.pokedex = data
+
+      console.log(this.pokedex)
+    },
+  },
+
 }
 </script>
 
 <style lang="scss">
-#app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-  margin-top: 60px;
-}
+  #app{
+    height: 100vh;
+  }
 </style>
