@@ -2,12 +2,12 @@
   <div id="app" class="h-screen flex flex-col">
     <SearchBar :text="title" @onPokeRes="getRes" />
 
-    <ShowRes v-if="status === 200" 
-    :pokemon="pokemon" :pics="pokePics"
-    @onPokeClick="getPokedex"  />
+    <ShowRes v-if="status == 200"
+    :pokemon="pokemon" :pokedex="pokedex"
+    @onPokeClick="getPokemon"  />
 
     <pokedexPreview :pokedex="pokedex" 
-    @onPokeRemove="removeFromPokedex" @onPokeShow="getPokeToShow" />
+    @onPokeClick="getPokemon"  />
   </div>
 </template>
 
@@ -22,47 +22,50 @@ export default {
     return{
       title: 'Cerca un Pokemon',
       pokemon: {},
-      pokePics: {},
       pokedex: [],
       status: null,
     }
   },
 
   components: {
-    SearchBar,
-    ShowRes,
-    pokedexPreview
+    SearchBar, ShowRes, pokedexPreview
   },
 
   methods: {
     getRes(pokeData){
       const {data} = pokeData
       const {status} = pokeData
-
       this.pokemon = data
       this.status = status
-
-      const {sprites} = this.pokemon
-      this.pokePics = sprites
-  
     },
 
-    getPokeToShow(data){
-      return this.pokemon = data
+    getPokemon(data){
+      console.log(data)
+
+      if(data.add){
+        this.addPokemon(data.pokemon)
+      } else if(data.remove){
+        this.removePokemon(data.pokemon)
+      } else if(data.show){
+        this.pokemon = data.pokemon
+      }
+
+      console.log(this.pokedex)
     },
 
-    removeFromPokedex(data){
-      const poke = data
+    addPokemon(pokemon){
+      if(!this.pokedex.includes(pokemon)){
+        this.pokedex.push(pokemon)
+      }
+    },  
 
-      this.pokedex = this.pokedex.filter(el => el.id != poke.id)
+    removePokemon(pokemon){
+      this.pokedex = this.pokedex.filter(el => el.id != pokemon.id)
       return this.pokedex
-  
     },
 
     getPokedex(data){
       this.pokedex = data
-
-      console.log(this.pokedex)
     },
   },
 
