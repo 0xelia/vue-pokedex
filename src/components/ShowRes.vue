@@ -44,18 +44,15 @@
                     
                 </div>
 
-                <div class="flex gap-4 self-center">
-
                     <button v-if="!pokedex.includes(pokemon)" @click="$emit('onPokeClick', {pokemon, add: true})"
-                    class="px-8 py-2 mb-6 bg-purple-700 rounded text-white w-1/2">
+                    class="px-8 py-2 mb-6 bg-purple-700 rounded text-white w-1/2 self-center">
                         Aggiungi al Pokedex
                     </button>
                     <button v-if="pokedex.includes(pokemon)" @click="$emit('onPokeClick', {pokemon, remove: true})" 
-                    class="px-8 py-2 mb-6 bg-purple-700 rounded text-white w-1/2">
+                    class="px-8 py-2 mb-6 bg-purple-700 rounded text-white w-1/2 self-center">
                         Rimuovi dal Pokedex
                     </button>
-                    
-                </div>
+
 
             </div>
 
@@ -94,7 +91,8 @@
 
         props:{
             pokemon: Object,
-        },  pokedex: Array
+            pokedex: Array
+        },
     }
 </script>
 

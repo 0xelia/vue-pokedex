@@ -2,7 +2,7 @@
   <div id="app" class="h-screen flex flex-col">
     <SearchBar :text="title" @onPokeRes="getRes" />
 
-    <ShowRes 
+    <ShowRes v-if="status == 200"
     :pokemon="pokemon" :pokedex="pokedex"
     @onPokeClick="getPokemon"  />
 
@@ -28,9 +28,7 @@ export default {
   },
 
   components: {
-    SearchBar,
-    ShowRes,
-    pokedexPreview
+    SearchBar, ShowRes, pokedexPreview
   },
 
   methods: {
