@@ -7,9 +7,9 @@
 
             <div class="flex items-center">
 
-                <input @keyup.enter="fetchPokemon(), showLoader()" v-model="query" 
+                <input @keyup.enter="fetchPokemon(query), showLoader()" v-model="query" 
                 class="border border-r-0 border-slate-300 rounded rounded-r-none w-full px-6 h-16" type="text"  placeholder="es. Pikachu" name="query" id="">
-                <i @click="fetchPokemon(), showLoader()" class="fa-solid text-purple-700 cursor-pointer bg-slate-200 p-6 border rounded-r-sm fa-magnifying-glass"></i>
+                <i @click="fetchPokemon(query), showLoader()" class="fa-solid text-purple-700 cursor-pointer bg-slate-200 p-6 border rounded-r-sm fa-magnifying-glass"></i>
 
             </div>
             
@@ -21,8 +21,8 @@
 
                 <!-- search history -->
                 <ul v-if="history.length > 0" class="flex flex-col justify-center p-4  divide-y divide-slate-200 ">
-                    <li v-for="(search, i) in history" class="py-2" :key="i">
-                        <p class="text-slate-500">
+                    <li v-for="(search, i) in history" class="py-2" :key="i" @click="console.log('click')">
+                        <p class="text-slate-500 cursor-pointer">
                             {{ search }}
                         </p>
                     </li>
@@ -64,9 +64,9 @@
         },
 
         methods:{
-            fetchPokemon(){
+            fetchPokemon(poke){
 
-                axios.get( `https://pokeapi.co/api/v2/pokemon/${this.query.toLowerCase()}`) 
+                axios.get( `https://pokeapi.co/api/v2/pokemon/${poke.toLowerCase()}`) 
                     .then(res => {
                         this.$emit('onPokeRes', res)
                         this.history.push(this.query)
