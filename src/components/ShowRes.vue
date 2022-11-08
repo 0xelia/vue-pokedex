@@ -44,15 +44,18 @@
                     
                 </div>
 
-                
-                <button v-if="!pokedex.includes(pokemon)" @click="addInPokedex(pokemon), $emit('onPokeClick', pokedex)"
-                class="px-8 py-4 mb-6 bg-purple-700 rounded text-white w-1/2 self-center">
-                    Aggiungi al Pokedex
-                </button>
-                <button v-if="pokedex.includes(pokemon)" @click="removeFromPokedex(pokemon), $emit('onPokeClick', pokedex)" 
-                class="px-8 py-4 mb-6 bg-purple-700 rounded text-white w-1/2 self-center">
-                    Rimuovi dal Pokedex
-                </button>
+                <div class="flex gap-4 self-center">
+
+                    <button v-if="!pokedex.includes(pokemon)" @click="$emit('onPokeClick', {pokemon, add: true})"
+                    class="px-8 py-2 mb-6 bg-purple-700 rounded text-white w-1/2">
+                        Aggiungi al Pokedex
+                    </button>
+                    <button v-if="pokedex.includes(pokemon)" @click="$emit('onPokeClick', {pokemon, remove: true})" 
+                    class="px-8 py-2 mb-6 bg-purple-700 rounded text-white w-1/2">
+                        Rimuovi dal Pokedex
+                    </button>
+                    
+                </div>
 
             </div>
 
@@ -85,31 +88,13 @@
     export default {
         data(){
             return{
-                pokedex: [],
                 shiny: false
             }
         },
 
         props:{
             pokemon: Object,
-            pics: Object,
-        },
-
-        methods: {
-            addInPokedex(pokemon){
-                this.pokedex.push(pokemon)
-            },
-
-            removeFromPokedex(pokemon){
-                
-                const index = pokemon.id
-                const filter = this.pokedex.filter(el => el.id != index)
-                this.pokedex = filter
-            }
-        },
-
-        mounted(){
-        }
+        },  pokedex: Array
     }
 </script>
 
