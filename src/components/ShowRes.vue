@@ -44,7 +44,7 @@
                     
                 </div>
 
-                    <button v-if="!pokedex.includes(pokemon)" @click="$emit('onPokeClick', {pokemon, add: true})"
+                    <button v-if="!pokedex.includes(pokemon)" @click="$emit('onPokeClick', {pokemon, add: true}), setBadge()"
                     class="px-8 py-2 mb-6 bg-purple-700 rounded text-white w-1/2 self-center">
                         Aggiungi al Pokedex
                     </button>
@@ -52,8 +52,6 @@
                     class="px-8 py-2 mb-6 bg-purple-700 rounded text-white w-1/2 self-center">
                         Rimuovi dal Pokedex
                     </button>
-
-
             </div>
 
             <!-- poke stats -->
@@ -76,6 +74,13 @@
 
         </div>
 
+        <div v-if="showBadge" class="badge px-16 py-8 font-bold bg-slate-300/50 text-white text-xl fixed left-2/4 bottom-2/4 backdrop-blur-lg rounded-md">
+            <p>
+                Il tuo pokedex è pieno!
+            </p>
+        </div>
+
+
     </section>
 </template>
 
@@ -83,19 +88,38 @@
 
 
     export default {
-        data(){
-            return{
-                shiny: false
-            }
-        },
 
         props:{
             pokemon: Object,
             pokedex: Array
         },
+
+        data(){
+            return{
+                showBadge: false,
+                shiny: false
+            }
+        },
+
+        methods: {
+            setBadge(){
+                if(this.pokedex.length == 10){
+                    this.showBadge = true
+                }
+
+                if(this.showBadge){
+                    setTimeout(() => {
+                        this.showBadge = false
+                    },2000)
+                }
+            }
+        }
     }
 </script>
 
 <style lang="scss" scoped>
-
+    .badge{
+        transform: translateX(-50%);
+        transition: all 700ms linear;
+    }
 </style>
