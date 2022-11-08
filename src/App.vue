@@ -54,7 +54,7 @@ export default {
     },
 
     addPokemon(pokemon){
-      if(!this.pokedex.includes(pokemon)){
+      if(!this.pokedex.includes(pokemon) && this.pokedex.length < 10){
         this.pokedex.push(pokemon)
       }
     },  
