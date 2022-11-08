@@ -1,6 +1,7 @@
 <template>
   <div id="app" class="h-screen flex flex-col">
-    <SearchBar :text="title" @onPokeRes="getRes" />
+    <SearchBar :text="title" :pokedex="pokedex" 
+    @onPokeRes="getRes" />
 
     <ShowRes v-if="status == 200"
     :pokemon="pokemon" :pokedex="pokedex"
